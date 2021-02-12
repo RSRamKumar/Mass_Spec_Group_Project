@@ -1,0 +1,152 @@
+{% extends "layout.html" %}
+{% block title %}{{title}}{% endblock %}
+{% block head %}
+  {{ super() }}
+{% endblock %}
+{% block page %}{{title}}{% endblock %}
+{% block heading %}
+  {{ super() }}
+{% endblock %}
+
+
+{% block content %}
+  <h3>Choose Your File Format</h3>
+  <form method="post" action="/Session">
+  <input type="radio" id="mzxml" name="file_type" value="mzxml">
+    <label for="mzxml">mzXML File</label><br>
+      <input type="radio" id="fasta" name="file_type" value="fasta">
+    <label for="fasta">Fasta File</label><br>
+      <input type="radio" id="mzml" name="file_type" value="mzml">
+    <label for="mzml">MzML File</label><br>
+
+
+
+    <button type="submit" name="submit" class="btn btn-primary" >Submit</button>
+  </form>
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <div>
+      {% for message in messages %}
+        <span>{{ message }}</span>
+      {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  {% if output is defined %}
+  {% if not output.empty %}
+  <button type="button"  data-toggle="collapse" class="btn btn-danger" data-target="#summary">Relevant Values</button>
+  <div id="summary" class="collapse">
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Base Peak</th>
+          <th>Base Peak Intensity</th>
+          <th>Highest Observed M/Z</th>
+          <th>Lowest Observed M/Z</th>
+          <th>Total Ion Current</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for key,value in output.iterrows() %}
+          <tr>
+            <td>{{ value['Base Peak'] }}</td>
+            <td>{{ value['Base Peak Intensity'] }}</td>
+            <td>{{ value['Highest Observed M/Z'] }}</td>
+            <td>{{ value['Lowest Observed M/Z'] }}</td>
+            <td>{{ value['Total Ion Current'] }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% endif %}
+  {% endif %}
+
+ {% if vals is defined %}
+  {% if not vals.empty %}
+
+  <button type="button"  data-toggle="collapse" class="btn btn-danger" data-target="#summary">Possible Peptide</button>
+  <div id="summary" class="collapse">
+      <h3>Possible peptides that the spectrum values represent</h3>
+
+    <table class="table">
+
+      <thead>
+        <tr>
+
+          <th>Peptide ID m/z</th>
+          <th>Peptide ID RT</th>
+          <th>Peptide scan index</th>
+          <th>Peptide ID score type</th>
+          <th>Peptide hit rank</th>
+            <th>Peptide hit charge</th>
+            <th>Peptide hit sequence</th>
+            <th>Peptide hit monoisotopic m/z</th>
+            <th>Peptide ppm error</th>
+            <th>Peptide hit score</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for key1,value1 in vals.iterrows() %}
+          <tr>
+            <td>{{ value1['Peptide ID m/z'] }}</td>
+            <td>{{ value1['Peptide ID RT'] }}</td>
+            <td>{{ value1['Peptide scan index'] }}</td>
+            <td>{{ value1['Peptide ID score type'] }}</td>
+            <td>{{ value1['Peptide hit rank'] }}</td>
+          <td>{{ value1['Peptide hit charge'] }}</td>
+          <td>{{ value1['Peptide hit sequence'] }}</td>
+          <td>{{ value1['Peptide hit monoisotopic m/z'] }}</td>
+          <td>{{ value1['Peptide ppm error'] }}</td>
+          <td>{{ value1['Peptide hit score'] }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+      <input type="button" class="btn btn-danger" onclick="location.href='/proteins';" value="Protein Matches" />
+
+
+    {% endif %}
+    {% endif %}
+
+
+
+{% if new is defined %}
+  {% if not new.empty %}
+<h3>Protein Derived from the peptide</h3>
+
+    <table class="table">
+
+      <thead>
+        <tr>
+
+          <th>Peptide</th>
+            <th>Location</th>
+          <th>Protein matches</th>
+      </tr>
+      </thead>
+      <tbody>
+        {% for key2,value2 in new.iterrows() %}
+          <tr>
+          <td>{{ value2['Peptide'] }}</td>
+            <td>{{ value2['Location'] }}</td>
+            <td>{{ value2['Protein'] }}</td>
+      </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% endif %}
+    {% endif %}
+
+
+
+  {% block footer %}
+  {{super()}}
+  {% endblock %}
+{% endblock %}
+
+

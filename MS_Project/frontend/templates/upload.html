@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+{% block title %}{{title}}{% endblock %}
+{% block head %}
+  {{ super() }}
+{% endblock %}
+{% block content %}
+  <h1><b>Select File to Upload</b></h1>
+  <h5 style="position:relative;top:100;left:400">
+        <p>
+            <i>
+                <u><big>Guideline:</big></u>
+                    <ol>
+                        <li>Click on the "Browse" button to upload a file containing mass spectrum data and a fasta file !</li>
+                        <li>Press the "Clear Entry" button if an incorrect file was selected</li>
+                        <li>For uploading the selected file press "Upload" button </li>
+                        <li>Press the "Clear Contents" button to delete all files </li>
+
+                    </ol>
+            </i>
+        </p>
+  </h5>
+  <body>
+    <form method="POST" action="/uploader" enctype="multipart/form-data">
+        <p><input type="file" name="file" class="btn btn-info"></p>
+        <p><input type="submit" name="submit" class="btn btn-success" value="Upload"></p>
+        <p><input type="reset" name="submit" class="btn btn-success" value="Clear Entry"></p>
+        <p><input type="submit" name="submit" class="btn btn-success" value="Clear Contents"></p>
+    </form>
+  </body>
+<br>
+<img src="https://upload.wikimedia.org/wikipedia/commons/e/e7/Hexokinase_ball_and_stick_model%2C_with_substrates_to_scale_copy.png"
+     style="width:500px;height:300px;opacity:0.35; position:absolute;right:100px" >
+<h5 style="position:relative;top:275;left:400"> <br><br>
+    <b><i><u>
+    <small>https://upload.wikimedia.org/wikipedia/commons/e/e7/Hexokinase_ball_and_stick_model%2C_with_substrates_to_scale_copy.png
+    </small>
+    </u></i></b>
+</h5>
+<br>
+{% endblock %}
+<br>
+{% block footer %}
+{{super()}}
+{% endblock %}
